@@ -1,9 +1,44 @@
+"use client";                                              // NEW
+import { useEffect, useState } from "react";                // NEW
 import { getKitchens } from "@/lib/api";
+import type { Kitchen } from "@/lib/types";                 // NEW
 import StatusBadge from "@/components/StatusBadge";
 
-export default async function DashboardPage() {
-  const kitchens = await getKitchens();
+export default function DashboardPage() {                   // CHANGED: no async
+  const [kitchens, setKitchens] = useState<Kitchen[]>([]);  // NEW
+  const [loading, setLoading] = useState(true);             // NEW: true, we haven't heard back
+  const [error, setError] = useState("");                   // NEW
 
+  async function load() {                                   // NEW
+    setLoading(true);
+    setError("");
+    try {
+      setKitchens(await getKitchens());
+    } catch (err) {
+      console.error(err);
+      setError("We couldn't load kitchen data right now.");
+    } finally {
+      setLoading(false);
+    }
+  }
+
+  useEffect(() => {                                         // NEW
+    load();
+  }, []);
+
+  // NEW: the three non-success states, checked before anything renders
+  if (loading) return <main className="p-4 sm:p-8"><p>Loading kitchen data…</p></main>;
+  if (error)
+    return (
+      <main className="p-4 sm:p-8">
+        <p className="mb-3">{error}</p>
+        <button onClick={load} className="border rounded-lg px-4 py-2">Try again</button>
+      </main>
+    );
+  if (kitchens.length === 0)
+    return <main className="p-4 sm:p-8"><p>No kitchens to show yet.</p></main>;
+
+  // UNCHANGED from here down — moved below the checks so we never divide by zero
   const totalRevenue = kitchens.reduce((sum, k) => sum + k.revenueToday, 0);
   const avgOccupancy =
     kitchens.reduce((sum, k) => sum + k.occupancyPct, 0) / kitchens.length;

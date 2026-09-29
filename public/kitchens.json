@@ -1,0 +1,24 @@
+[
+  {
+    "id": "1",
+    "name": "Bahn Mi Bros",
+    "cuisine": "Vietnamese",
+    "sqft": 320,
+    "status": "leased",
+    "monthlyRate": 2400,
+    "deliveryPlatforms": ["grubhub", "ubereats"],
+    "occupancyPct": 92,
+    "revenueToday": 840
+  },
+  {
+    "id": "2",
+    "name": "Unit 2",
+    "cuisine": "—",
+    "sqft": 280,
+    "status": "available",
+    "monthlyRate": 2100,
+    "deliveryPlatforms": [],
+    "occupancyPct": 0,
+    "revenueToday": 0
+  }
+]
