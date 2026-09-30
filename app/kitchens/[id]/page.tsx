@@ -5,6 +5,7 @@ import { useParams } from "next/navigation";
 import Link from "next/link";
 import { getKitchens } from "@/lib/api";
 import type { Kitchen } from "@/lib/types";
+import StatusBadge from "@/components/StatusBadge";
 
 export default function KitchenDetailPage() {
   const params = useParams<{ id: string }>();
@@ -57,7 +58,9 @@ export default function KitchenDetailPage() {
       <p>
         {kitchen.cuisine} · {kitchen.sqft} sqft
       </p>
-      <p>Status: {kitchen.status}</p>
+<p className="flex items-center gap-2">
+  Status: <StatusBadge status={kitchen.status} />
+</p>
       <p>Monthly rate: ${kitchen.monthlyRate}</p>
       <p>Delivery: {kitchen.deliveryPlatforms.join(", ") || "None yet"}</p>
     </main>
