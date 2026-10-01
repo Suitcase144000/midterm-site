@@ -61,6 +61,7 @@ export default function KitchenDetailPage() {
 <p className="flex items-center gap-2">
   Status: <StatusBadge status={kitchen.status} />
 </p>
+{kitchen.status === "leased" && <p>Current tenant: {kitchen.name}</p>}
       <p>Monthly rate: ${kitchen.monthlyRate}</p>
       <p>Delivery: {kitchen.deliveryPlatforms.join(", ") || "None yet"}</p>
     </main>
